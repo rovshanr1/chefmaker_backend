@@ -58,6 +58,18 @@ app.post('/upload', verifyToken, async (req, res) => {
     }
 });
 
+app.delete('/delete', verifyToken, async (req, res) => {
+    const { fileId } = req.params;
+    try {
+        const response = await imagekit.deleteFile(fileId);
+        res.json({message: "Image deleted successfully"});
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Failed to delete image" });
+    }
+})
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, `0.0.0.0`, () => {
     console.log(`Server is running on port ${PORT}`);
